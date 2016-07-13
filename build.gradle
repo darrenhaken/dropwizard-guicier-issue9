@@ -1,0 +1,39 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'com.sample'
+version System.getenv('VERSION') ?: '1.0'
+
+// UTF-8 should be standard by now. So use it!
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+mainClassName = 'com.sample.Application'
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+def dropWizardVersion = '0.9.3'
+
+dependencies {
+    compile group: 'io.dropwizard', name: 'dropwizard-core', version: dropWizardVersion
+    compile group: 'io.dropwizard', name: 'dropwizard-auth', version: dropWizardVersion
+    compile group: 'io.dropwizard', name: 'dropwizard-client', version: dropWizardVersion
+    compile group: 'commons-io', name: 'commons-io', version: '2.5'
+    compile group: 'com.hubspot.dropwizard', name: 'dropwizard-guicier', version: '1.0.0.1'
+
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    testCompile group: 'org.mockito', name: 'mockito-core', version: '1.+'
+    testCompile group: 'io.dropwizard', name: 'dropwizard-testing', version: dropWizardVersion
+}
+
+
+run {
+    args 'server', "$rootDir/src/main/resources/config.yml"
+}
+
